@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps",
+  "compilerOptions": {
+    "deleteOutDir": true
+  },
+  "monorepo": true,
+  "projects": {
+    "api-gateway": {
+      "type": "application",
+      "root": "apps/api-gateway",
+      "entryFile": "main",
+      "sourceRoot": "apps/api-gateway/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/api-gateway/tsconfig.app.json"
+      }
+    },
+    "auth": {
+      "type": "application",
+      "root": "apps/auth",
+      "entryFile": "main",
+      "sourceRoot": "apps/auth/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/auth/tsconfig.app.json"
+      }
+    },
+    "biology": {
+      "type": "application",
+      "root": "apps/biology",
+      "entryFile": "main",
+      "sourceRoot": "apps/biology/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/biology/tsconfig.app.json"
+      }
+    },
+    "dental": {
+      "type": "application",
+      "root": "apps/dental",
+      "entryFile": "main",
+      "sourceRoot": "apps/dental/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/dental/tsconfig.app.json"
+      }
+    },
+    "notification": {
+      "type": "application",
+      "root": "apps/notification",
+      "entryFile": "main",
+      "sourceRoot": "apps/notification/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/notification/tsconfig.app.json"
+      }
+    },
+    "thoracic": {
+      "type": "application",
+      "root": "apps/thoracic",
+      "entryFile": "main",
+      "sourceRoot": "apps/thoracic/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/thoracic/tsconfig.app.json"
+      }
+    }
+  }
+}
