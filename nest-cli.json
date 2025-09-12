@@ -3,7 +3,8 @@
   "collection": "@nestjs/schematics",
   "sourceRoot": "apps",
   "compilerOptions": {
-    "deleteOutDir": true
+    "deleteOutDir": true,
+    "webpack": true
   },
   "monorepo": true,
   "projects": {
@@ -50,6 +51,15 @@
       "sourceRoot": "apps/notification/src",
       "compilerOptions": {
         "tsConfigPath": "apps/notification/tsconfig.app.json"
+      }
+    },
+    "shared": {
+      "type": "library",
+      "root": "libs/shared",
+      "entryFile": "index",
+      "sourceRoot": "libs/shared/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/shared/tsconfig.lib.json"
       }
     },
     "thoracic": {
