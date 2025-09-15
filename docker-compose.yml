@@ -1,0 +1,131 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    container_name: my-rabbitmq-v2
+    image: rabbitmq:3-management
+    ports:
+      - "5673:5672"
+      - "15673:15672"
+      - "15692:15692"
+    networks:
+      - viewr-network
+
+
+  postgres:
+    container_name: my-postgres-v2
+    image: postgres:latest
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=appointment_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - viewr-network
+
+  api-gateway:
+    container_name: api-gateway
+    build:
+      context: .
+      dockerfile: apps/api-gateway/Dockerfile
+    ports:
+      - "3001:3000"
+    environment:
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
+      - POSTGRES_URI=postgres://user:password@postgres:5432/appointment_db
+    depends_on:
+      - rabbitmq
+      - postgres
+    networks:
+      - viewr-network
+
+  auth:
+    container_name: auth
+    build:
+      context: .
+      dockerfile: apps/auth/Dockerfile
+    ports:
+      - "3002:3010"
+    environment:
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
+      - POSTGRES_URI=postgres://postgres:example@postgres:5432/mydb
+    depends_on:
+      - rabbitmq
+      - postgres
+    networks:
+      - viewr-network
+
+
+  biology:
+    container_name: biology
+    build:
+      context: .
+      dockerfile: apps/biology/Dockerfile
+    ports:
+      - "3003:3030"
+    environment:
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
+      - POSTGRES_URI=postgres://postgres:example@postgres:5432/mydb
+    depends_on:
+      - rabbitmq
+      - postgres
+    networks:
+      - viewr-network     
+
+  dental:
+    container_name: dental
+    build:
+      context: .
+      dockerfile: apps/dental/Dockerfile
+    ports:
+      - "3003:3020"
+    environment:
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
+      - POSTGRES_URI=postgres://postgres:example@postgres:5432/mydb
+    depends_on:
+      - rabbitmq
+      - postgres
+    networks:
+      - viewr-network     
+
+  notification:
+    container_name: notification
+    build:
+      context: .
+      dockerfile: apps/notification/Dockerfile
+    ports:
+      - "3005:3050"
+    environment:
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
+      - POSTGRES_URI=postgres://postgres:example@postgres:5432/mydb
+    depends_on:
+      - rabbitmq
+      - postgres
+    networks:
+      - viewr-network  
+
+  thoracic:
+    container_name: thoracic
+    build:
+      context: .
+      dockerfile: apps/thoracic/Dockerfile
+    ports:
+      - "3006:3060"
+    environment:
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
+      - POSTGRES_URI=postgres://postgres:example@postgres:5432/mydb
+    depends_on:
+      - rabbitmq
+      - postgres
+    networks:
+      - viewr-network    
+
+networks:
+  viewr-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

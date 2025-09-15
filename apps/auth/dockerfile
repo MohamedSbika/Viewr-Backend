@@ -1,3 +1,4 @@
+# Étape de build
 FROM node:20-alpine AS builder
 
 WORKDIR /app
@@ -6,3 +7,18 @@ COPY package*.json ./
 COPY tsconfig*.json ./
 COPY nest-cli.json ./
 COPY .env ./
+
+RUN npm install 
+
+COPY apps/auth apps/auth
+COPY libs libs
+
+RUN npm cache clean --force
+
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY --from=builder /app /app
+
+CMD ["npm", "run", "start:auth"]
