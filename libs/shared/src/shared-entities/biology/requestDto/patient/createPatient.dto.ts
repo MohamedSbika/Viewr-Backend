@@ -1,9 +1,9 @@
 // dtos/create-patient.dto.ts
 import { IsString, IsDateString, IsEnum, IsOptional, IsNotEmpty, IsUUID } from 'class-validator';
-import { GENDER } from '../../Enums/gender.enum';
-import { INSURANCE } from '../../Enums/insurance.enum';
+import { GENDER } from '@app/shared';
+import { INSURANCE } from '@app/shared';
 
-export class createPatientDto {
+export class createBiologyPatientDto {
 
   @IsString()
   @IsNotEmpty()

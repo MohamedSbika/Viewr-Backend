@@ -1,4 +1,4 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateLotDto } from '../../requestDto/lot/createLot.dto';
+import { SafePartialType as PartialType } from '@app/shared';
+import { CreateBiologyLotDto } from '../../requestDto/lot/createLot.dto';
 
-export class UpdateLotDto extends PartialType(CreateLotDto) {}
+export class UpdateLotDto extends PartialType(CreateBiologyLotDto) {}

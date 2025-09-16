@@ -1,6 +1,6 @@
-import { paymentMethod } from '../../Enums/paymentMethod.enum';
-import { paymentStatus } from '../../Enums/paymentStatus.enum';
-import { AppointmenResponseDto } from '../appointment/appointementResponse.dto'; // Adjust path
+import { paymentMethod } from '@app/shared';
+import { paymentStatus } from '@app/shared';
+import { AppointmenResponseDto } from '@app/shared'; // Adjust path
 
 export class PaymentResponseDto {
   ID: string;

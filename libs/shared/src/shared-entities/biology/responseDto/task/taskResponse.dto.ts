@@ -1,7 +1,7 @@
 import { taskStatus } from '@app/shared';
 import { taskPriority } from '@app/shared';
 
-export class taskResponseDto {
+export class taskBiologyResponseDto {
   id: string;
   title: string;
   description: string;

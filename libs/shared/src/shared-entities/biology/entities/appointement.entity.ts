@@ -1,4 +1,4 @@
-import { APPSTATUS } from '../Enums/appstatus.enum';
+import { APPSTATUS } from '@app/shared';
 import { Patient } from './patient.entity';
 import { AppointmentTest } from './appointmentTest.entity';
 import { Payment } from './payment.entity';

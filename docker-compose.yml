@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   rabbitmq:
-    container_name: my-rabbitmq-v2
+    container_name: my-rabbitmq-viewr
     image: rabbitmq:3-management
     ports:
       - "5673:5672"
@@ -13,7 +13,7 @@ services:
 
 
   postgres:
-    container_name: my-postgres-v2
+    container_name: my-postgres-viewr
     image: postgres:latest
     ports:
       - "5433:5432"
@@ -27,7 +27,7 @@ services:
       - viewr-network
 
   api-gateway:
-    container_name: api-gateway
+    container_name: api-gateway-viewr
     build:
       context: .
       dockerfile: apps/api-gateway/Dockerfile
@@ -43,7 +43,7 @@ services:
       - viewr-network
 
   auth:
-    container_name: auth
+    container_name: auth-viewr
     build:
       context: .
       dockerfile: apps/auth/Dockerfile
@@ -60,12 +60,12 @@ services:
 
 
   biology:
-    container_name: biology
+    container_name: biology-viewr
     build:
       context: .
       dockerfile: apps/biology/Dockerfile
     ports:
-      - "3003:3030"
+      - "3009:3030"
     environment:
       - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
       - POSTGRES_URI=postgres://postgres:example@postgres:5432/mydb
@@ -76,12 +76,12 @@ services:
       - viewr-network     
 
   dental:
-    container_name: dental
+    container_name: dental-viewr
     build:
       context: .
       dockerfile: apps/dental/Dockerfile
     ports:
-      - "3003:3020"
+      - "3008:3020"
     environment:
       - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
       - POSTGRES_URI=postgres://postgres:example@postgres:5432/mydb
@@ -92,12 +92,12 @@ services:
       - viewr-network     
 
   notification:
-    container_name: notification
+    container_name: notification-viewr
     build:
       context: .
       dockerfile: apps/notification/Dockerfile
     ports:
-      - "3005:3050"
+      - "3007:3050"
     environment:
       - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
       - POSTGRES_URI=postgres://postgres:example@postgres:5432/mydb
@@ -108,7 +108,7 @@ services:
       - viewr-network  
 
   thoracic:
-    container_name: thoracic
+    container_name: thoracic-viewr
     build:
       context: .
       dockerfile: apps/thoracic/Dockerfile

@@ -1,4 +1,5 @@
-import { IsString, IsBoolean, IsOptional } from 'class-validator';
+import { InventoryItemCategory, StorageCondition } from '@app/shared';
+import { IsString, IsBoolean, IsOptional, IsEnum } from 'class-validator';
 
 export class UpdateBiologyInventoryItemDto {
   @IsOptional()
@@ -6,16 +7,16 @@ export class UpdateBiologyInventoryItemDto {
   name?: string;
 
   @IsOptional()
-  @IsString()
-  category?: string;
+  @IsEnum(InventoryItemCategory)
+  category?: InventoryItemCategory; 
 
   @IsOptional()
   @IsString()
   unit?: string;
 
   @IsOptional()
-  @IsString()
-  storageCondition?: string;
+  @IsEnum(StorageCondition) 
+  storageCondition?: StorageCondition;
 
   @IsOptional()
   @IsString()

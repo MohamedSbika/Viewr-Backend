@@ -1,4 +1,4 @@
-import { TransactionType } from '../../Enums/inventory/transaction-type.enum';
+import { TransactionType } from '@app/shared';
 import { InventoryItem } from './inventory-item.entity';
 
 export class Transaction {

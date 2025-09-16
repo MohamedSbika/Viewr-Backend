@@ -1,4 +1,4 @@
-import { lot } from "../../ms-b/entities/lot.entity";
+import { lot } from "@app/shared";
 
 export class inventoryItem {
     id: string;

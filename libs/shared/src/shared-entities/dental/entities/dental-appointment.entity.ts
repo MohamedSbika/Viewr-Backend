@@ -1,4 +1,4 @@
-import { DENTAL_APPOINTMENT_STATUS } from '../Enums/dental-appointment-status.enum';
+import { DENTAL_APPOINTMENT_STATUS } from '@app/shared';
 import { DentalPatient } from './patient.entity';
 
 export class DentalAppointment {

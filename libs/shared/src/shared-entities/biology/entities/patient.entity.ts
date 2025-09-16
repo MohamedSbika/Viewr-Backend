@@ -1,5 +1,5 @@
-import { GENDER } from '../Enums/gender.enum';
-import { INSURANCE } from '../Enums/insurance.enum';
+import { GENDER } from '@app/shared';
+import { INSURANCE } from '@app/shared';
 import { Appointment } from './appointement.entity';
 
 export class Patient {

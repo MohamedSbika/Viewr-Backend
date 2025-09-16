@@ -1,7 +1,5 @@
 
-import { IsString, IsDateString, IsEnum, IsOptional } from 'class-validator';
-import { GENDER } from '@app/shared';
-import { PartialType } from '@nestjs/mapped-types';
-import { createPatientDto } from './createPatient.dto';
+import { SafePartialType as PartialType } from '@app/shared';
+import { createBiologyPatientDto } from './createPatient.dto';
 
-export class UpdateBiologyPatientDto extends PartialType(createPatientDto) {}
+export class UpdateBiologyPatientDto extends PartialType(createBiologyPatientDto) {}

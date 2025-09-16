@@ -1,4 +1,4 @@
-import { StorageLocationStatus } from '../../Enums/inventory/storage-location-status.enum';
+import { StorageLocationStatus } from '@app/shared';
 
 export class StorageLocation {
   id: string;

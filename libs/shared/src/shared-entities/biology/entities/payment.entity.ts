@@ -1,5 +1,5 @@
-import { paymentMethod } from '../Enums/paymentMethod.enum';
-import { paymentStatus } from '../Enums/paymentStatus.enum';
+import { paymentMethod } from '@app/shared';
+import { paymentStatus } from '@app/shared';
 import { Appointment } from './appointement.entity';
 
 export class Payment {

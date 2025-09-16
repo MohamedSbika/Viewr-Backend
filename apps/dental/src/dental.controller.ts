@@ -1,12 +1,18 @@
-import { Controller, Get } from '@nestjs/common';
 import { DentalService } from './dental.service';
+import { MessagePattern } from '@nestjs/microservices';
+import { FileLoggerService } from '@app/shared';
 
-@Controller()
 export class DentalController {
-  constructor(private readonly dentalService: DentalService) {}
+  private readonly logFileName = 'app';
 
-  @Get()
-  getHello(): string {
-    return this.dentalService.getHello();
+  constructor(
+    private readonly appService: DentalService,
+    private readonly logger: FileLoggerService,
+  ) {}
+
+  @MessagePattern('dental.healthCheck')
+  healthCheck() {
+    console.log('Received health check request');
+    return { status: 'ok', message: 'Dental service is healthy' };
   }
 }

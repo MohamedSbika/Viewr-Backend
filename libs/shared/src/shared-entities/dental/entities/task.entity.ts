@@ -1,5 +1,5 @@
-import { taskPriority } from '../Enums/task/task-priority.enum';
-import { taskStatus } from '../Enums/task/task-status.enum';
+import { taskPriority } from '@app/shared';
+import { taskStatus } from '@app/shared';
 
 export class Task {
     id: string;

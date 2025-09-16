@@ -4,7 +4,7 @@ import * as path from 'path';
 import { LoggerConfig } from './logger.config';
 
 @Injectable()
-export class FileLoggerService implements LoggerService {
+export class FileLoggerService1 implements LoggerService {
   private readonly logsDir = LoggerConfig.LOGS_DIR;
   private context: string;
   private defaultLogFileName: string = 'app';

@@ -1,5 +1,5 @@
-import { GENDER } from '../Enums/gender.enum';
-import { INSURANCE } from '../Enums/insurance.enum';
+import { GENDER } from '@app/shared';
+import { INSURANCE } from '@app/shared';
 
 export class DentalPatient {
   id: string;

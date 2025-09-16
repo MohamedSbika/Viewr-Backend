@@ -12,7 +12,7 @@ import { LotStatus } from '@app/shared';
 import { Type } from 'class-transformer';
 import { CreateDentalSupplierDto } from '../supplier/create-supplier.dto';
 
-export class CreateDDentalLotDto {
+export class CreateDentalLotDto {
   @IsUUID()
   inventoryItemId: string;
 

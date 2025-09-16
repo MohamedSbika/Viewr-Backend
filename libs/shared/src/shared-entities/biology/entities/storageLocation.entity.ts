@@ -1,4 +1,4 @@
-import { lot } from "./lot.entity";
+import { lot } from "@app/shared";
 
 export class storageLocation {
     id: string;

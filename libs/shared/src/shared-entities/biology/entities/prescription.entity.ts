@@ -1,4 +1,4 @@
-import { Appointment } from './appointement.entity';
+import { Appointment } from '@app/shared';
 
 export class prescription {
   id: string;

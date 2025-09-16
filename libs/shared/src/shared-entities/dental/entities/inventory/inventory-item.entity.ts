@@ -1,5 +1,5 @@
-import { InventoryItemCategory } from '../../Enums/inventory/inventory-item-category.enum';
-import { StorageCondition } from '../../Enums/inventory/storage-condition.enum';
+import { InventoryItemCategory } from '@app/shared';
+import { StorageCondition } from '@app/shared';
 import { Lot } from './lot.entity';
 import { Transaction } from './transaction.entity';
 

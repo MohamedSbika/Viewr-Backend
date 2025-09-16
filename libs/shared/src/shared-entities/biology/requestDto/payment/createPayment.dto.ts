@@ -1,6 +1,6 @@
 import { IsEnum, IsNotEmpty, IsNumber, IsOptional, IsDateString } from 'class-validator';
-import { paymentMethod } from '../../Enums/paymentMethod.enum';
-import { paymentStatus } from '../../Enums/paymentStatus.enum'
+import { paymentMethod } from '@app/shared';
+import { paymentStatus } from '@app/shared'
 export class CreatePaymentDto {
   @IsNumber()
   @IsNotEmpty()

@@ -4,7 +4,8 @@
   "sourceRoot": "apps",
   "compilerOptions": {
     "deleteOutDir": true,
-    "webpack": true
+    "webpack": true,
+    "plugins": ["@nestjs/swagger/plugin"]
   },
   "monorepo": true,
   "projects": {

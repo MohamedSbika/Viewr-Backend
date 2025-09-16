@@ -52,6 +52,9 @@ export class AppointmentResponseDto {
   };
 
   @IsString()
+  patientId: string;
+
+  @IsString()
   dentistId: string;
 
   @IsString()

@@ -4,6 +4,13 @@ import * as path from 'path';
 
 @Injectable()
 export class FileLoggerService {
+  [x: string]: any;
+  setContext(arg0: string) {
+    throw new Error('Method not implemented.');
+  }
+  setLogFileName(logFileName: string) {
+    throw new Error('Method not implemented.');
+  }
   private readonly logsDir = path.join(process.cwd(), 'logs');
 
   constructor() {

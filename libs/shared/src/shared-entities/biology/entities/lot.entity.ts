@@ -1,8 +1,8 @@
 import { inventoryItem } from "./inventoryItem.entity";
-import { Transaction } from "../entities/transaction.entity";
-import { supplier } from "../entities/supplier.entity";
+import { Transaction } from "@app/shared";
+import { supplier } from "@app/shared";
 import { storageLocation } from "../entities/storageLocation.entity";
-import { lotStatus } from "../Enums/lotStatus.enum";
+import { lotStatus } from "@app/shared";
 
 export class lot {
     id: string;
