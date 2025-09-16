@@ -1,4 +1,8 @@
-import { SafePartialType } from '@app/shared';
-import { CreateRoleDto } from './create-role.dto';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
-export class UpdateRoleDto extends SafePartialType(CreateRoleDto) {}
+export class UpdateRoleDto {
+    @IsOptional()
+    @IsNotEmpty()
+    @IsString()
+    title: string;
+}

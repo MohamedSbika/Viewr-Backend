@@ -4,13 +4,14 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserAuth, RoleAuth, PermissionAuth, UserProfileAuth, FeatureAuth, RoleFeaturePermissionAuth,EstablishmentAuth } from '@app/shared';
+import { UserAuth, RoleAuth, PermissionAuth, UserProfileAuth, FeatureAuth, RoleFeaturePermissionAuth,EstablishmentAuth, DatabaseModule } from '@app/shared';
 import { RedisModule } from '@app/shared';
 import { LoggingModule } from './logging/logging.module';
 import { EmailService } from '@app/shared';
 
 @Module({
   imports: [
+    DatabaseModule,
     ConfigModule,
     TypeOrmModule.forFeature([UserAuth, RoleAuth, PermissionAuth, UserProfileAuth, FeatureAuth, RoleFeaturePermissionAuth,EstablishmentAuth]),
     JwtModule.registerAsync({

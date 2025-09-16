@@ -3,6 +3,7 @@ import { IsNotEmpty, IsString, IsNumber, IsDateString } from 'class-validator';
 export class CreateAppointmentTestDto {
   @IsString()
   id: string;
+  
   @IsString()
   @IsNotEmpty()
   name: string;

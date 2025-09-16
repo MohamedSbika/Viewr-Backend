@@ -1,6 +1,28 @@
-// dtos/update-analysis.dto.ts
+import { IsOptional, IsString, IsNotEmpty } from "class-validator";
 
-import { SafePartialType as PartialType } from '@app/shared';
-import { CreateAnalysisDto } from '../analysis/createAnalysis.dto';
+export class UpdateAnalysisDto {
+    @IsOptional()
+    @IsString()
+    @IsNotEmpty()
+    analysisName: string;
 
-export class UpdateAnalysisDto extends PartialType(CreateAnalysisDto) {}
+    @IsOptional()
+    @IsString()
+    @IsNotEmpty()
+    tubeType: string;
+
+    @IsOptional()
+    @IsString()
+    @IsNotEmpty()
+    sampleType: string;
+
+
+    @IsOptional()
+    @IsString()
+    @IsNotEmpty()
+    category: string;
+
+    @IsOptional()
+    @IsString()
+    notes?: string;
+}

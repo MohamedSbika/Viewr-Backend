@@ -13,6 +13,7 @@ import { InventoryItemModule } from './inventoryItem/inventoryItem.module';
 import { StorageModule } from './storageLocation/storageLocation.module';
 import { LotModule } from './Lot/lot.module';
 import { SupplierModule } from './supplier/supplier.module';
+import { microserviceProviders } from '../microservices.providers';
 @Module({
   imports: [
     ClientsModule.register([
@@ -41,7 +42,7 @@ import { SupplierModule } from './supplier/supplier.module';
     TransactionModule
   ],
   controllers: [BiologyController],
-  providers: [BiologyService],
-  exports: [BiologyService],
+  providers: [BiologyService,    ...microserviceProviders],
+  exports: [BiologyService,    ...microserviceProviders],
 })
 export class BiologyModule {}

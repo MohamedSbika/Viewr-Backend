@@ -22,6 +22,8 @@ import { microserviceProviders } from '../microservices.providers';
     AuthService,
     ...microserviceProviders
   ],
-  exports: [AuthService, AuthEndpointsModule],
+  exports: [AuthService, AuthEndpointsModule,
+        ...microserviceProviders,
+  ],
 })
 export class AuthModule {}

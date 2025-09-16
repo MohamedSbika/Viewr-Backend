@@ -22,7 +22,7 @@ async function bootstrap() {
     const configService = app.get(ConfigService);
 
     // Récupérer les infos RabbitMQ depuis .env
-    const rabbitMqUrls = configService.get<string>('RABBITMQ_URLS', 'amqp://localhost:5672').split(',');
+    const rabbitMqUrls = configService.get<string>('RABBITMQ_URL', 'amqp://localhost:5672').split(',');
     const rabbitMqQueue = configService.get<string>('RABBITMQ_QUEUE', 'auth_queue');
 
     // Connecter le microservice RMQ

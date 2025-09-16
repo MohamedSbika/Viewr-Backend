@@ -1,4 +1,20 @@
-import { SafePartialType as PartialType } from '@app/shared';
-import { CreateBiologyTransactionDto } from '../../requestDto/transaction/createTransaction.dto';
+import { transactionType } from '@app/shared';
+import { IsEnum, IsNumber, IsOptional, IsString, IsUUID } from 'class-validator';
 
-export class UpdateBiologyTransactionDto extends PartialType(CreateBiologyTransactionDto) {}
+export class UpdateBiologyTransactionDto  {
+    @IsOptional()
+    @IsUUID()
+    lotId: string;
+
+    @IsOptional()
+    @IsNumber()
+    transactionQuantity: number;
+
+    @IsOptional()
+    @IsString()
+    notes: string;
+
+    @IsOptional()
+    @IsEnum(transactionType)
+    transaction: transactionType;
+}

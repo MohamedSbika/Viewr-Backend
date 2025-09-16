@@ -1,9 +1,12 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { RoleApiController } from './role.controller';
 import { RoleService } from './role.service';
 import { FileLoggerService } from '@app/shared';
+import { AuthModule } from '../auth.module';
 
 @Module({
+    imports: [forwardRef(() => AuthModule)], // <- forwardRef si AuthModule importe RoleModule
+
   controllers: [RoleApiController],
   providers: [
     RoleService,

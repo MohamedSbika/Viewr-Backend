@@ -1,6 +1,18 @@
 version: '3.8'
 
 services:
+
+  redis:
+    container_name: my-redis-viewr
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    networks:
+      - viewr-network
+
   rabbitmq:
     container_name: my-rabbitmq-viewr
     image: rabbitmq:3-management
@@ -20,7 +32,7 @@ services:
     environment:
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=appointment_db
+      - POSTGRES_DB=viewr_auth
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
@@ -51,7 +63,7 @@ services:
       - "3002:3010"
     environment:
       - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
-      - POSTGRES_URI=postgres://postgres:example@postgres:5432/mydb
+      - POSTGRES_URI=postgres://user:password@postgres:5432/viewr_auth
     depends_on:
       - rabbitmq
       - postgres
@@ -68,7 +80,7 @@ services:
       - "3009:3030"
     environment:
       - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
-      - POSTGRES_URI=postgres://postgres:example@postgres:5432/mydb
+      - POSTGRES_URI=postgres://user:password@postgres:5432/viewr_auth
     depends_on:
       - rabbitmq
       - postgres
@@ -84,7 +96,7 @@ services:
       - "3008:3020"
     environment:
       - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
-      - POSTGRES_URI=postgres://postgres:example@postgres:5432/mydb
+      - POSTGRES_URI=postgres://user:password@postgres:5432/viewr_auth
     depends_on:
       - rabbitmq
       - postgres
@@ -100,7 +112,7 @@ services:
       - "3007:3050"
     environment:
       - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
-      - POSTGRES_URI=postgres://postgres:example@postgres:5432/mydb
+      - POSTGRES_URI=postgres://user:password@postgres:5432/viewr_auth
     depends_on:
       - rabbitmq
       - postgres
@@ -129,3 +141,5 @@ networks:
 
 volumes:
   postgres_data:
+  redis_data:
+

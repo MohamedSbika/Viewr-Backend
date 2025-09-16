@@ -14,7 +14,7 @@ async function bootstrap() {
 
   // Récupération des variables d’environnement
   const rabbitMqUrls = configService
-    .get<string>('RABBITMQ_URLS', 'amqp://localhost:5672')
+    .get<string>('RABBITMQ_URL', 'amqp://localhost:5672')
     .split(',');
   const rabbitMqQueue = configService.get<string>('RABBITMQ_QUEUE', 'notification_queue');
 

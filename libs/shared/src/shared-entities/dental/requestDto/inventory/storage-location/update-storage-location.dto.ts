@@ -1,4 +1,13 @@
-import { SafePartialType as PartialType } from '@app/shared';
-import { CreateDentalStorageLocationDto } from './create-storage-location.dto';
+import { StorageLocationStatus } from '@app/shared';
+import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
-export class UpdateDentalStorageLocationDto extends PartialType(CreateDentalStorageLocationDto) {}
+export class UpdateDentalStorageLocationDto {
+    @IsOptional()
+    @IsNotEmpty()
+    @IsString()
+    locationName: string;
+
+    @IsOptional()
+    @IsEnum(StorageLocationStatus)
+    status?: StorageLocationStatus;
+}

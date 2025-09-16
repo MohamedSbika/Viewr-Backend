@@ -8,4 +8,4 @@ export * from './shared-entities/biology';
 export * from './shared-entities/dental';
 export * from './auth-entities';
 export * from './redis';
-export * from './helpers/safe-partial-type'
+export * from './helpers'

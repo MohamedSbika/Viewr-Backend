@@ -1,4 +1,32 @@
-import { SafePartialType as PartialType } from '@app/shared';
-import { CreatePaymentDto } from '../payment/createPayment.dto';
+import { paymentMethod, paymentStatus } from '@app/shared';
+import { IsNumber, IsOptional, IsNotEmpty, IsDateString, IsEnum } from 'class-validator';
 
-export class UpdatePaymentDto extends PartialType(CreatePaymentDto) {}
+export class UpdatePaymentDto {
+    @IsNumber()
+    @IsOptional()
+    @IsNotEmpty()
+    amount: number;
+
+    @IsDateString()
+    @IsOptional()
+    @IsNotEmpty()
+    paymentDate: Date;
+
+    @IsNumber()
+    @IsOptional()
+    @IsNotEmpty()
+    patientContribution: number;
+
+    @IsNumber()
+    @IsNotEmpty()
+    @IsOptional()
+    insuranceContribution: number;
+
+    @IsEnum(paymentMethod)
+    @IsOptional()
+    method?: paymentMethod;
+
+    @IsEnum(paymentStatus)
+    @IsOptional()
+    status?: paymentStatus;
+}

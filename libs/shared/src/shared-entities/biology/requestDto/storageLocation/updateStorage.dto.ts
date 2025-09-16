@@ -1,4 +1,7 @@
-import { SafePartialType as PartialType } from '@app/shared';
-import { CreateBiologyStorageLocationDto } from '../../requestDto/storageLocation/createStorage.dto';
+import { IsOptional, IsString } from 'class-validator';
 
-export class UpdateBiologyStorageLocationDto extends PartialType(CreateBiologyStorageLocationDto) {}
+export class UpdateBiologyStorageLocationDto  {
+      @IsString()
+      @IsOptional()
+      locationName: string;
+}

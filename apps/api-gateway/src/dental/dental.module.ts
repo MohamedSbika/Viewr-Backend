@@ -6,6 +6,7 @@ import { TaskModule } from './task/task.module';
 import { PatientModule } from './patient/patient.module';
 import { AppointmentModule } from './appointment/appointment.module';
 import { FileLoggerService } from '@app/shared';
+import { microserviceProviders } from '../microservices.providers';
 
 @Module({
   imports: [
@@ -21,7 +22,11 @@ import { FileLoggerService } from '@app/shared';
       provide: 'FileLogger',
       useClass: FileLoggerService,
     },
+        ...microserviceProviders
   ],
-  exports: [DentalService, InventoryModule, TaskModule, PatientModule, AppointmentModule],
+  exports: [DentalService, InventoryModule, TaskModule, PatientModule, AppointmentModule ,
+        ...microserviceProviders,   // <-- Et exporte ici
+
+  ],
 })
 export class DentalModule {}

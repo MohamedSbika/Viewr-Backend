@@ -6,6 +6,7 @@ import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { FileLoggerService } from '@app/shared';
 import { TaskStatus } from '../Enums/task-status.enum';
+import { TaskPriority } from '../Enums/task-priority.enum';
 
 @Injectable()
 export class TaskService {
@@ -132,6 +133,11 @@ export class TaskService {
     return await this.update(id, {
       status: TaskStatus.COMPLETED,
       completedAt: new Date().toISOString(),
+      title: '',
+      description: '',
+      deadline: '',
+      priority: TaskPriority.LOW,
+      userId: ''
     });
   }
 

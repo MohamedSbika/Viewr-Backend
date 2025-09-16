@@ -27,7 +27,11 @@ export class ItemController {
     @Param('id') id: string,
     @Body() updateItem: UpdateBiologyInventoryItemDto
   ): Promise<InventoryItemBiologyResponseDto> {
-    return this.InventoryItemService.updateItem(id, updateItem);
+    // Ensure 'name' is always a string
+    if (typeof updateItem.name !== 'string') {
+      throw new Error("The 'name' property is required and must be a string.");
+    }
+    return this.InventoryItemService.updateItem(id, updateItem as any);
   }
 
   @Delete(':id')
