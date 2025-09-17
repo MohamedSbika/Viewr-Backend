@@ -109,7 +109,7 @@ services:
       context: .
       dockerfile: apps/notification/Dockerfile
     ports:
-      - "3007:3050"
+      - "3007:3060"
     environment:
       - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
       - POSTGRES_URI=postgres://user:password@postgres:5432/viewr_auth
@@ -125,7 +125,7 @@ services:
       context: .
       dockerfile: apps/thoracic/Dockerfile
     ports:
-      - "3006:3060"
+      - "3006:3050"
     environment:
       - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
       - POSTGRES_URI=postgres://postgres:example@postgres:5432/mydb

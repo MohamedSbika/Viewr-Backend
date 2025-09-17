@@ -16,7 +16,7 @@ async function bootstrap() {
   const rabbitMqUrls = configService
     .get<string>('RABBITMQ_URL', 'amqp://localhost:5672')
     .split(',');
-  const rabbitMqQueue = configService.get<string>('RABBITMQ_QUEUE', 'notification_queue');
+  const rabbitMqQueue = configService.get<string>('NOTIFICATION_QUEUE', 'notification_queue');
 
   // Ajout du microservice RabbitMQ
   app.connectMicroservice<MicroserviceOptions>({
@@ -43,7 +43,7 @@ async function bootstrap() {
   fileLogger.log('Starting Notification Microservice', 'main', 'bootstrap');
 
   // Démarrage du serveur HTTP + microservice
-  await app.listen(3050); // Port API HTTP
+  await app.listen(3060); // Port API HTTP
   await app.startAllMicroservices();
 
   logger.log('✅ Notification Microservice started successfully!');

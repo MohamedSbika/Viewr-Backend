@@ -16,7 +16,7 @@ async function bootstrap() {
   const rabbitMqUrls = configService
     .get<string>('RABBITMQ_URL', 'amqp://localhost:5672')
     .split(',');
-  const rabbitMqQueue = configService.get<string>('RABBITMQ_QUEUE', 'notification_queue');
+  const rabbitMqQueue = configService.get<string>('THORACIC_QUEUE', 'thoracic_queue');
 
   // Ajout du microservice RabbitMQ
   app.connectMicroservice<MicroserviceOptions>({

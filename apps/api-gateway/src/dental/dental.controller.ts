@@ -1,7 +1,7 @@
 import { Controller, Get, Logger, Inject, Req, Body, Post, Put, Delete, Param, Query, HttpException, HttpStatus } from '@nestjs/common';
 import type { Request } from 'express';
 import { RabbitMQService } from '@app/shared';
-import { FileLoggerService } from '@app/shared';
+import { FileLoggerService } from '@app/shared/common/logger/file-logger.service';
 
 @Controller('dental')
 export class DentalController {
