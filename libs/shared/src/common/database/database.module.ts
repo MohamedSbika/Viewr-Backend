@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { join } from 'path';
+import { EstablishmentAuth, FeatureAuth, PermissionAuth, PlanAuth, RoleAuth, RoleFeaturePermissionAuth, UserAuth, UserProfileAuth } from '@app/shared/auth-entities';
 
 @Module({
   imports: [
@@ -14,11 +16,19 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         username: configService.get<string>('DATABASE_USER'),
         password: configService.get<string>('DATABASE_PASSWORD'),
         database: configService.get<string>('DATABASE_NAME'),
-        entities: ['dist/**/*.entity{.ts,.js}'],
-        synchronize: true,
+        entities: [
+          UserAuth,
+          RoleAuth,
+          PermissionAuth,
+          UserProfileAuth,
+          FeatureAuth,
+          RoleFeaturePermissionAuth,
+          EstablishmentAuth,
+          PlanAuth
+        ], synchronize: true,
       }),
       inject: [ConfigService],
     }),
   ],
 })
-export class DatabaseModule {}
+export class DatabaseModule { }

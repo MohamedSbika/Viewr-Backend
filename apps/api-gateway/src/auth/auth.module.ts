@@ -10,7 +10,7 @@ import { microserviceProviders } from '../microservices.providers';
 
 
 @Module({
-  imports: [
+  imports: [    
     FeatureModule, 
     EstablishmentModule, 
     RoleModule, 

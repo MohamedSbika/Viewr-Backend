@@ -1,7 +1,8 @@
 import { Body, Controller, Get, Post, Logger, Inject, Headers } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LoginRequestDto } from '@app/shared';
+import { LoginRequestDto, VerifyOtpRequestDto } from '@app/shared';
 import { RegisterRequestDto } from '@app/shared';
+import { ApiOperation } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
@@ -21,7 +22,9 @@ export class AuthController {
     this.fileLogger.log(logMessage, 'auth-login', AuthController.name);
     return this.authService.login(loginRequest);
   }
+  
   @Post('login/otp')
+  @ApiOperation({ summary: 'Login fonctionnel' })
   loginOtp(@Body() loginRequest: LoginRequestDto, @Headers('x-otp') otp: string) {
     const logMessage = `Login attempt for user: ${loginRequest.email} with OTP: ${otp}`;
     this.fileLogger.log(logMessage, 'auth-login-otp', AuthController.name);
@@ -35,10 +38,10 @@ export class AuthController {
   }
 
   @Post('verify')
-  verifyAccount(@Body() data: { userId: string }) {
-    const logMessage = `Verification request for user ID: ${data.userId}`;
+  verifyAccount(@Body() verifyRequest : VerifyOtpRequestDto) {
+    const logMessage = `Verification request for user ID: ${verifyRequest.userId}`;
     this.fileLogger.log(logMessage, 'auth-verify', AuthController.name);
-    return this.authService.verifyAccount(data);
+    return this.authService.verifyAccount(verifyRequest);
   }
 
   @Post('refresh-token')

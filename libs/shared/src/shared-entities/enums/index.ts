@@ -12,6 +12,4 @@ export * from './taskPriority.enum';
 export * from './taskStatus.enum';
 export * from './transactionType.enum';
 export * from './dental-inventory';
-
-
 export * from './tooth-condition.enum'

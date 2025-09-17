@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { CRUD } from '@app/shared';
+import { CRUD } from '@app/shared/shared-entities/enums/crud.enum';
 import { RoleFeaturePermissionAuth } from './role-feature-permission.entity';
 
 @Entity('permissions')

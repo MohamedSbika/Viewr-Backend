@@ -4,8 +4,8 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserAuth, RoleAuth, PermissionAuth, UserProfileAuth, FeatureAuth, RoleFeaturePermissionAuth,EstablishmentAuth, DatabaseModule } from '@app/shared';
-import { RedisModule } from '@app/shared';
+import { UserAuth, RoleAuth, PermissionAuth, UserProfileAuth, FeatureAuth, RoleFeaturePermissionAuth,EstablishmentAuth, PlanAuth } from '@app/shared/auth-entities';
+import { DatabaseModule, RedisModule } from '@app/shared';
 import { LoggingModule } from './logging/logging.module';
 import { EmailService } from '@app/shared';
 
@@ -13,7 +13,7 @@ import { EmailService } from '@app/shared';
   imports: [
     DatabaseModule,
     ConfigModule,
-    TypeOrmModule.forFeature([UserAuth, RoleAuth, PermissionAuth, UserProfileAuth, FeatureAuth, RoleFeaturePermissionAuth,EstablishmentAuth]),
+    TypeOrmModule.forFeature([UserAuth, RoleAuth, PermissionAuth, UserProfileAuth, FeatureAuth, RoleFeaturePermissionAuth,EstablishmentAuth,PlanAuth]),
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({

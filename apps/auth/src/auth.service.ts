@@ -4,9 +4,9 @@ import { RpcException } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as argon2 from 'argon2';
-import { LoginRequestDto } from './dto/login-request.dto';
+import { LoginRequestDto, VerifyOtpRequestDto } from '@app/shared';
 import { LoginResponseDto } from './dto/login-response.dto';
-import { RegisterRequestDto } from './dto/register.request.dto';
+import { RegisterRequestDto } from '@app/shared';
 import { UserAuth, RoleAuth, UserProfileAuth } from '@app/shared';
 import { RedisService } from '@app/shared';
 import { REDIS_KEYS, buildRedisKey } from '@app/shared';
@@ -150,79 +150,97 @@ export class AuthService {
     return userToken;
   }
 
-  async register(registerRequest: RegisterRequestDto): Promise<any> {
-    const { email, password, phone_number, profile } = registerRequest;
+async register(registerRequest: RegisterRequestDto): Promise<any> {
+  this.logger.log(`🏗️  [MICROSERVICE] Registration started for: ${registerRequest.email}`);
+  
+  const { email, password, phone_number, profile } = registerRequest;
 
-    const existingUser = await this.userRepository.findOne({ where: { email } });
-    if (existingUser) {
-      throw new RpcException({
-        statusCode: HttpStatus.CONFLICT,
-        error: 'Conflict',
-        message: 'User with this email already exists'
-      });
-    }
-
-    const hashedPassword = await this.hashPassword(password);
-
-    const queryRunner = this.userRepository.manager.connection.createQueryRunner();
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
-    
-    try {
-      const userProfile = this.userProfileRepository.create({
-        FirstName: profile.FirstName,
-        LastName: profile.LastName,
-        address: profile.address,
-        gender: profile.gender,
-        CIN: profile.CIN,
-        DOB: profile.DOB
-      });
-      
-      await queryRunner.manager.save(userProfile);
-      
-      const user = this.userRepository.create({
-        email,
-        password: hashedPassword,
-        phone_number,
-        profile: userProfile,
-      });
-      
-      await queryRunner.manager.save(user);
-      
-      const defaultRole = await queryRunner.manager.findOne(RoleAuth, { 
-        where: { title: 'User' } 
-      });
-      
-      if (defaultRole) {
-        // Set roles array instead of creating a userRole
-        user.roles = [defaultRole];
-        await queryRunner.manager.save(user);
-      }
-      
-      await queryRunner.commitTransaction();
-      
-      return {
-        success: true,
-        message: 'User registered successfully',
-        user: {
-          id: user.id,
-          email: user.email
-        }
-      };
-    } catch (error) {
-      await queryRunner.rollbackTransaction();
-      throw new RpcException({
-        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-        error: 'Internal Server Error',
-        message: error.message || 'Error registering user'
-      });
-    } finally {
-      await queryRunner.release();
-    }
+  this.logger.log(`🔍 [MICROSERVICE] Checking existing user...`);
+  const existingUser = await this.userRepository.findOne({ where: { email } });
+  if (existingUser) {
+    this.logger.log(`⚠️  [MICROSERVICE] User already exists`);
+    throw new RpcException({
+      statusCode: HttpStatus.CONFLICT,
+      error: 'Conflict',
+      message: 'User with this email already exists'
+    });
   }
 
-  async verifyAccount(userId: string): Promise<any> {
-    const user = await this.userRepository.findOne({ where: { id: userId } });
+  this.logger.log(`🔐 [MICROSERVICE] Hashing password...`);
+  const hashedPassword = await this.hashPassword(password);
+
+  this.logger.log(`🗄️  [MICROSERVICE] Starting database transaction...`);
+  const queryRunner = this.userRepository.manager.connection.createQueryRunner();
+  await queryRunner.connect();
+  await queryRunner.startTransaction();
+  
+  try {
+    this.logger.log(`👤 [MICROSERVICE] Creating user profile...`);
+    const userProfile = this.userProfileRepository.create({
+      FirstName: profile.FirstName,
+      LastName: profile.LastName,
+      address: profile.address,
+      gender: profile.gender,
+      CIN: profile.CIN,
+      DOB: profile.DOB
+    });
+    
+    await queryRunner.manager.save(userProfile);
+    this.logger.log(`✅ [MICROSERVICE] Profile saved with ID: ${userProfile.id}`);
+    
+    this.logger.log(`🧑 [MICROSERVICE] Creating user...`);
+    const user = this.userRepository.create({
+      email,
+      password: hashedPassword,
+      phone_number,
+      profile: userProfile,
+    });
+    
+    await queryRunner.manager.save(user);
+    this.logger.log(`✅ [MICROSERVICE] User saved with ID: ${user.id}`);
+    
+    this.logger.log(`🔍 [MICROSERVICE] Looking for default role...`);
+    const defaultRole = await queryRunner.manager.findOne(RoleAuth, { 
+      where: { title: 'User' } 
+    });
+    
+    if (defaultRole) {
+      this.logger.log(`👥 [MICROSERVICE] Assigning default role...`);
+      user.roles = [defaultRole];
+      await queryRunner.manager.save(user);
+      this.logger.log(`✅ [MICROSERVICE] Role assigned`);
+    } else {
+      this.logger.warn(`⚠️  [MICROSERVICE] Default role 'User' not found!`);
+    }
+    
+    this.logger.log(`💾 [MICROSERVICE] Committing transaction...`);
+    await queryRunner.commitTransaction();
+    
+    this.logger.log(`🎉 [MICROSERVICE] Registration completed successfully`);
+    return {
+      success: true,
+      message: 'User registered successfully',
+      user: {
+        id: user.id,
+        email: user.email
+      }
+    };
+  } catch (error) {
+    this.logger.error(`❌ [MICROSERVICE] Transaction error: ${error.message}`, error.stack);
+    await queryRunner.rollbackTransaction();
+    throw new RpcException({
+      statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+      error: 'Internal Server Error',
+      message: error.message || 'Error registering user'
+    });
+  } finally {
+    this.logger.log(`🔒 [MICROSERVICE] Releasing query runner...`);
+    await queryRunner.release();
+  }
+}
+
+async verifyAccount(verifyRequest: VerifyOtpRequestDto): Promise<any> {
+  const user = await this.userRepository.findOne({ where: { id: verifyRequest.userId } });
     
     if (!user) {
       throw new RpcException({
@@ -243,78 +261,71 @@ export class AuthService {
 
 
 
-  async login(loginRequest: LoginRequestDto): Promise<LoginResponseDto> {
-    const { email, password } = loginRequest;
-    
-    // Query the database directly with establishment relation
-    const user = await this.userRepository.findOne({
-      where: { email },
-      relations: ['roles', 'roles.roleFeaturePermissions', 'roles.roleFeaturePermissions.feature', 'establishment','roles.roleFeaturePermissions.permission','profile']
+async login(loginRequest: LoginRequestDto): Promise<LoginResponseDto> {
+  const { email, password } = loginRequest;
+
+  const user = await this.userRepository.findOne({
+    where: { email },
+    relations: [
+      'roles',
+      'roles.roleFeaturePermissions',
+      'roles.roleFeaturePermissions.feature',
+      'roles.roleFeaturePermissions.permission',
+      'profile',
+      'establishment',
+    ],
+  });
+
+  if (!user || !(await this.verifyPassword(user.password, password))) {
+    throw new RpcException({
+      statusCode: HttpStatus.UNAUTHORIZED,
+      message: 'Invalid email or password',
     });
-    if (!user || !(await this.verifyPassword(user.password, password))) {
-      throw new RpcException({
-        statusCode: HttpStatus.UNAUTHORIZED,
-        message: 'Invalid email or password'
-      });
-    }
-    if (!user.is_verified) {
-      throw new RpcException({
-        statusCode: HttpStatus.UNAUTHORIZED,
-        error: 'Unauthorized',
-        message: 'Please verify your account before logging in'
-      });
-    }
-    if (!user.establishment) {
-      throw new RpcException({
-        statusCode: HttpStatus.UNAUTHORIZED,
-        error: 'Unauthorized',
-        message: 'ACCOUNT ESTABLISHMENT NOT FOUND'
-      });
-    }
+  }
 
-    const userRole = user.roles?.[0];
-    const role = userRole?.title || 'User';
-    
-    const permissions: { [key: string]: string[] } = {};
-    userRole?.roleFeaturePermissions.forEach(rfp => {
-
-      if (rfp.feature?.isActive && rfp.feature?.name) {
-        
-        const featureName = rfp.feature.name;
-        const permissionName = rfp.permission?.action || '';
-
-        if (!permissions[featureName]) {
-          permissions[featureName] = [];
-        }
-        
-        permissions[featureName].push(permissionName);
-      }
+  if (!user.is_verified) {
+    throw new RpcException({
+      statusCode: HttpStatus.UNAUTHORIZED,
+      message: 'Please verify your account before logging in',
     });
-    
-    const accessToken = await this.generateAccessToken(user, role);
-    const refreshToken = await this.generateRefreshToken(user,role);
-    const userToken = await this.generateUserToken(user,permissions);
+  }
 
-    const response: LoginResponseDto = {
-      access_token: accessToken,
-      refresh_token: refreshToken,
-      user_token:userToken,
-      user: {
-        id: user.id,
-        fullname: `${user.profile.FirstName} ${user.profile.LastName}`,
-        email: user.email,
-        role: role,
-        establishment: {
-          id: user.establishment.id,
-          name: user.establishment.name,
-        }
-      },
-    };
+  // ✅ Générer un OTP pour permettre le login via /login-otp
+  await this.generateOtp(email);
 
-    
+  // ... ensuite, génération des tokens comme d’habitude
+  const userRole = user.roles?.[0];
+  const role = userRole?.title || 'User';
 
-    return response;
-  }  /**
+  const permissions: { [key: string]: string[] } = {};
+  userRole?.roleFeaturePermissions.forEach(rfp => {
+    if (rfp.feature?.isActive && rfp.feature?.name) {
+      const featureName = rfp.feature.name;
+      const permissionName = rfp.permission?.action || '';
+      if (!permissions[featureName]) permissions[featureName] = [];
+      permissions[featureName].push(permissionName);
+    }
+  });
+
+  const accessToken = await this.generateAccessToken(user, role);
+  const refreshToken = await this.generateRefreshToken(user, role);
+  const userToken = await this.generateUserToken(user, permissions);
+
+  return {
+    access_token: accessToken,
+    refresh_token: refreshToken,
+    user_token: userToken,
+    user: {
+      id: user.id,
+      fullname: `${user.profile.FirstName} ${user.profile.LastName}`,
+      email: user.email,
+      role: role,
+            // establishment: user.establishment ? { id: user.establishment.id, name: user.establishment.name } : undefined
+
+    },
+  };
+}
+  /**
    * Hashes a password using Argon2id with an additional paraphrase secret
    * @param {string} password - Plain text password to hash
    * @returns {Promise<string>} Hashed password

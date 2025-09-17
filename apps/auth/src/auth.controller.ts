@@ -3,7 +3,7 @@ import { AuthService } from './auth.service';
 import { MessagePattern, RpcException } from '@nestjs/microservices';
 import { LoginRequestDto } from './dto/login-request.dto';
 import { LoginResponseDto } from './dto/login-response.dto';
-import { RegisterRequestDto } from './dto/register.request.dto';
+import { RegisterRequestDto, VerifyOtpRequestDto } from '@app/shared';
 import { LogoutRequestDto } from './dto/logout-response.dto';
 import { PasswordResetRequestDto } from './dto/password-reset-request.dto';
 import { PasswordResetDto } from './dto/password-reset.dto';
@@ -38,22 +38,14 @@ export class AuthController {
    * @returns {Promise<LoginResponseDto>} Login result with access token, refresh token, and user information
    */
   @MessagePattern('auth.login')
-  async login(loginRequest: LoginRequestDto): Promise<any> {
+  async handleLogin(loginRequest: LoginRequestDto): Promise<LoginResponseDto> {
     const logMessage = `Login attempt for user: ${loginRequest.email}`;
     this.fileLogger.log(logMessage, 'auth-login', AuthController.name);
-    const otpRequired = await this.authService.isOtpRequired(loginRequest.email);
-    if (otpRequired) {
-      throw new RpcException({
-        statusCode: HttpStatus.PRECONDITION_FAILED,
-        message: 'OTP required'
-      });
-    }
 
-    throw new RpcException({
-      statusCode: HttpStatus.UNAUTHORIZED,
-      message: 'Invalid email or password'
-    });
+    // Appel à la vraie fonction login qui fait toute la logique
+    return this.authService.login(loginRequest);
   }
+
   /**
    * Authenticates a user using OTP and generates tokens
    * @description Validates user credentials and OTP, returns tokens if successful, removes OTP from DB
@@ -103,10 +95,10 @@ export class AuthController {
    * @returns {Promise<{success: boolean, message: string}>} Verification result
    */
   @MessagePattern('auth.verify')
-  async verifyAccount(data: { userId: string }): Promise<any> {
-    const logMessage = `Verification request for user ID: ${data.userId}`;
+  async verifyAccount(verifyRequest: VerifyOtpRequestDto): Promise<any> {
+    const logMessage = `Verification request for user ID: ${verifyRequest.userId}`;
     this.fileLogger.log(logMessage, 'auth-verify', AuthController.name);
-    return this.authService.verifyAccount(data.userId);
+    return this.authService.verifyAccount(verifyRequest);
   }
 
   /**
@@ -131,7 +123,7 @@ export class AuthController {
    * @returns {Promise<{success: boolean, message: string}>} Logout result
    */
   @MessagePattern('auth.logout')
-  async logout(logoutRequest: LogoutRequestDto): Promise<{success: boolean, message: string}> {
+  async logout(logoutRequest: LogoutRequestDto): Promise<{ success: boolean, message: string }> {
     const logMessage = `Logout attempt received`;
     this.fileLogger.log(logMessage, 'auth-logout', AuthController.name);
     return this.authService.logout(logoutRequest.access_token);
@@ -144,7 +136,7 @@ export class AuthController {
    * @returns {Promise<{success: boolean, message: string}>} Password reset request result
    */
   @MessagePattern('auth.password-reset-request')
-  async requestPasswordReset(resetRequest: PasswordResetRequestDto): Promise<{success: boolean, message: string}> {
+  async requestPasswordReset(resetRequest: PasswordResetRequestDto): Promise<{ success: boolean, message: string }> {
     const logMessage = `Password reset request for email: ${resetRequest.email}`;
     this.fileLogger.log(logMessage, 'auth-password-reset-request', AuthController.name);
     return this.authService.requestPasswordReset(resetRequest.email);
@@ -157,7 +149,7 @@ export class AuthController {
    * @returns {Promise<{success: boolean, message: string}>} Password reset result
    */
   @MessagePattern('auth.password-reset')
-  async resetPassword(resetData: PasswordResetDto & {email: string}): Promise<{success: boolean, message: string}> {
+  async resetPassword(resetData: PasswordResetDto & { email: string }): Promise<{ success: boolean, message: string }> {
     const logMessage = `Password reset attempt for email: ${resetData.email}`;
     this.fileLogger.log(logMessage, 'auth-password-reset', AuthController.name);
     return this.authService.resetPassword(resetData.resetToken, resetData.newPassword, resetData.email);

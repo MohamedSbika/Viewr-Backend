@@ -9,7 +9,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({
     transform: true,
     whitelist: true,
-    forbidNonWhitelisted: true,
+    forbidNonWhitelisted: false,
     stopAtFirstError: true,
   }));
   // app.useGlobalFilters(new RpcValidationFilter());

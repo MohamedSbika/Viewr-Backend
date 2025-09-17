@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
-import { GENDER } from '@app/shared';
+import { GENDER } from '@app/shared/shared-entities/enums/gender.enum';
 import { UserAuth } from './user.entity';
 
 @Entity('user_profiles')

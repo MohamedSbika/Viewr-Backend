@@ -1,7 +1,7 @@
 import { Injectable, Logger, Inject, HttpException, HttpStatus } from '@nestjs/common';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { Observable, firstValueFrom } from 'rxjs';
-import { LoginRequestDto } from '@app/shared';
+import { LoginRequestDto, VerifyOtpRequestDto } from '@app/shared';
 import { RegisterRequestDto } from '@app/shared';
 import { LoginResponseDto } from '@app/shared';
 
@@ -64,30 +64,35 @@ export class AuthService {
     }
   }
 
-  async register(registerRequest: RegisterRequestDto): Promise<any> {
-    try {
-      this.logger.log(`Registration attempt for user: ${registerRequest.email}`);
-      return await firstValueFrom(
-        this.authClient.send('auth.register', registerRequest)
-      );
-    } catch (error) {
-      this.logger.error(`Error during registration for ${registerRequest.email}: ${error.message}`, error.stack);
-      throw new HttpException(error.response || {
-        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-        error: error.error,
-        message: error.message
-      }, error.status || HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+async register(registerRequest: RegisterRequestDto): Promise<any> {
+  try {
+    this.logger.log(`🚀 [GATEWAY] Starting registration for: ${registerRequest.email}`);
+    
+    this.logger.log(`📡 [GATEWAY] Sending to microservice...`);
+    const result = await firstValueFrom(
+      this.authClient.send('auth.register', registerRequest)
+    );
+    
+    this.logger.log(`✅ [GATEWAY] Response received from microservice`);
+    return result;
+  } catch (error) {
+    this.logger.error(`❌ [GATEWAY] Error: ${error.message}`, error.stack);
+    throw new HttpException(error.response || {
+      statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+      error: error.error,
+      message: error.message
+    }, error.status || HttpStatus.INTERNAL_SERVER_ERROR);
   }
+}
 
-  async verifyAccount(data: { userId: string }): Promise<any> {
+  async verifyAccount(verifyRequest : VerifyOtpRequestDto): Promise<any> {
     try {
-      this.logger.log(`Verification request for user ID: ${data.userId}`);
+      this.logger.log(`Verification request for user ID: ${verifyRequest.userId}`);
       return await firstValueFrom(
-        this.authClient.send('auth.verify', data)
+        this.authClient.send('auth.verify', verifyRequest)
       );
     } catch (error) {
-      this.logger.error(`Error during account verification for user ID ${data.userId}: ${error.message}`, error.stack);
+      this.logger.error(`Error during account verification for user ID ${verifyRequest.userId}: ${error.message}`, error.stack);
       throw new HttpException(error.response || {
         statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
         error: error.error,
