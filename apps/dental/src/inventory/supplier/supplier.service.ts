@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Supplier } from '@app/shared';
+import { FileLoggerService1, Supplier } from '@app/shared';
 import { CreateSupplierDto } from './dto/create-supplier.dto';
 import { UpdateSupplierDto } from './dto/update-supplier.dto';
 import { FileLoggerService } from '@app/shared';
@@ -25,7 +25,7 @@ export class SupplierService {
   constructor(
     @InjectRepository(Supplier)
     private supplierRepository: Repository<Supplier>,
-    private readonly logger: FileLoggerService,
+    private readonly logger: FileLoggerService1,
   ) {
     // Set the default log file name and context for this service
     this.logger.setLogFileName(this.logFileName);

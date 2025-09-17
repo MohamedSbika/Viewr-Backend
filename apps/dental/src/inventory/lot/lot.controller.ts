@@ -1,7 +1,7 @@
 import { Controller, HttpStatus, NotFoundException } from '@nestjs/common';
 import { MessagePattern, Payload, RpcException } from '@nestjs/microservices';
 import { LotService } from './lot.service';
-import { CreateDentalLotDto } from '@app/shared';
+import { CreateDentalLotDto, FileLoggerService1 } from '@app/shared';
 import { UpdateLotRequestDto } from '@app/shared';
 import { FileLoggerService } from '@app/shared';
 
@@ -17,7 +17,7 @@ export class LotController {
 
   constructor(
     private readonly lotService: LotService,
-    private readonly logger: FileLoggerService,
+    private readonly logger: FileLoggerService1,
   ) {
     this.logger.setContext('LotController');
     this.logger.setLogFileName(this.logFileName);

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { FileLoggerService } from '@app/shared';
+import { FileLoggerService, FileLoggerService1 } from '@app/shared';
 
 /**
  * Service responsible for managing inventory operations
@@ -11,7 +11,7 @@ import { FileLoggerService } from '@app/shared';
 export class InventoryService {
   private readonly logFileName = 'inventory';
 
-  constructor(private readonly logger: FileLoggerService) {
+  constructor(private readonly logger: FileLoggerService1) {
     // Set the default log file name for this service
     this.logger.setLogFileName(this.logFileName);
     this.logger.setContext('InventoryService');

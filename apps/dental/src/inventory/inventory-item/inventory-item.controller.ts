@@ -3,7 +3,7 @@ import { MessagePattern, Payload, RpcException } from '@nestjs/microservices';
 import { InventoryItemService } from './inventory-item.service';
 import { CreateInventoryItemDto } from './dto/create-inventory-item.dto';
 import { UpdateInventoryItemDto } from './dto/update-inventory-item.dto';
-import { FileLoggerService } from '@app/shared';
+import { FileLoggerService, FileLoggerService1 } from '@app/shared';
 import { InventoryItemCategory } from '@app/shared';
 @Controller()
 export class InventoryItemController {
@@ -25,7 +25,7 @@ export class InventoryItemController {
 
   constructor(
     private readonly inventoryItemService: InventoryItemService,
-    private readonly logger: FileLoggerService,
+    private readonly logger: FileLoggerService1,
   ) {
     this.logger.setContext('InventoryItemController');
     this.logger.setLogFileName(this.logFileName);

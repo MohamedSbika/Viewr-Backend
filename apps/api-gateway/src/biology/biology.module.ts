@@ -14,8 +14,12 @@ import { StorageModule } from './storageLocation/storageLocation.module';
 import { LotModule } from './Lot/lot.module';
 import { SupplierModule } from './supplier/supplier.module';
 import { microserviceProviders } from '../microservices.providers';
+import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
+        ConfigModule.forRoot({
+          isGlobal: true,
+        }),
     ClientsModule.register([
       {
         name: 'BIOLOGY_SERVICE',

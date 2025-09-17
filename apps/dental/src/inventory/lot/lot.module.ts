@@ -5,11 +5,14 @@ import { LotService } from './lot.service';
 import { Lot } from '../../entities/lot.entity';
 import { SupplierModule } from '../supplier/supplier.module';
 import { FileLoggerService } from '@app/shared';
+import { LoggingModule } from '@app/shared/common/logging/logging.module';
+
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Lot]),
     SupplierModule,
+    LoggingModule
     // LoggingModule is now available through parent InventoryModule
   ],
   controllers: [LotController],

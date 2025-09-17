@@ -3,7 +3,7 @@ import { StorageLocationService } from './storage-location.service';
 import { MessagePattern, Payload, RpcException } from '@nestjs/microservices';
 import { CreateStorageLocationDto } from './dto/create-storage-location.dto';
 import { UpdateStorageLocationDto } from './dto/update-storage-location.dto';
-import { FileLoggerService } from '@app/shared';
+import { FileLoggerService, FileLoggerService1 } from '@app/shared';
 
 @Controller()
 export class StorageLocationController {
@@ -18,7 +18,7 @@ export class StorageLocationController {
 
   constructor(
     private readonly storageLocationService: StorageLocationService,
-    private readonly logger: FileLoggerService,
+    private readonly logger: FileLoggerService1,
   ) {}
   // Using the agreed format: submodule.action
   @MessagePattern('storageLocation.findAll')

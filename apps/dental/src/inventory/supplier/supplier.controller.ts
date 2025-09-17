@@ -3,7 +3,7 @@ import { MessagePattern } from '@nestjs/microservices';
 import { SupplierService } from './supplier.service';
 import { CreateSupplierDto } from './dto/create-supplier.dto';
 import { UpdateSupplierDto } from './dto/update-supplier.dto';
-import { Supplier } from '@app/shared';
+import { FileLoggerService1, Supplier } from '@app/shared';
 import { FileLoggerService } from '@app/shared';
 import { RpcException } from '@nestjs/microservices';
 
@@ -11,7 +11,7 @@ import { RpcException } from '@nestjs/microservices';
 export class SupplierController {
   constructor(
     private readonly supplierService: SupplierService,
-    private readonly logger: FileLoggerService,
+    private readonly logger: FileLoggerService1,
   ) {
     this.logger.setContext('SupplierController');
     this.logger.setLogFileName('supplier.log');

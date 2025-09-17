@@ -4,7 +4,7 @@ import { DataSource, Repository } from 'typeorm';
 import { StorageLocation } from '../../entities/storage-location.entity';
 import { CreateStorageLocationDto } from './dto/create-storage-location.dto';
 import { UpdateStorageLocationDto } from './dto/update-storage-location.dto';
-import { StorageLocationStatus } from '@app/shared';
+import { FileLoggerService1, StorageLocationStatus } from '@app/shared';
 import { FileLoggerService } from '@app/shared';
 
 /**
@@ -28,7 +28,7 @@ export class StorageLocationService {
     @InjectRepository(StorageLocation)
     private storageLocationRepository: Repository<StorageLocation>,
     private dataSource: DataSource,
-    private readonly logger: FileLoggerService,
+    private readonly logger: FileLoggerService1,
   ) {
     // Set the default log file name and context for this service
     this.logger.setLogFileName(this.logFileName);

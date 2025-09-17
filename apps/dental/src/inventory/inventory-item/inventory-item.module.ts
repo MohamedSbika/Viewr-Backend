@@ -5,10 +5,13 @@ import { Lot } from '../../entities/lot.entity';
 import { InventoryItemController } from './inventory-item.controller';
 import { InventoryItemService } from './inventory-item.service';
 import { FileLoggerService } from '@app/shared';
+import { LoggingModule } from '@app/shared/common/logging/logging.module';
+
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([InventoryItem, Lot]),
+    LoggingModule
     // LoggingModule is now available through parent InventoryModule
   ],
   controllers: [InventoryItemController],

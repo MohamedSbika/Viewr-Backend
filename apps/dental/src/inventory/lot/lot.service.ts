@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateDentalLotDto } from '@app/shared';
+import { CreateDentalLotDto, FileLoggerService1 } from '@app/shared';
 import { UpdateLotRequestDto } from '@app/shared';
 import { Lot } from '@app/shared';
 import { SupplierService } from '../supplier/supplier.service';
@@ -28,7 +28,7 @@ export class LotService {
     @InjectRepository(Lot)
     private lotRepository: Repository<Lot>,
     private readonly supplierService: SupplierService,
-    private readonly logger: FileLoggerService,
+    private readonly logger: FileLoggerService1,
   ) {
     // Set the default log file name and context for this service
     this.logger.setLogFileName(this.logFileName);

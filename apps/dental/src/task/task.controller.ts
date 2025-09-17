@@ -3,7 +3,7 @@ import { MessagePattern, Payload, RpcException } from '@nestjs/microservices';
 import { TaskService } from './task.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
-import { FileLoggerService } from '@app/shared';
+import { FileLoggerService, FileLoggerService1 } from '@app/shared';
 import { TaskStatus } from '../Enums/task-status.enum';
 
 @Controller()
@@ -25,7 +25,7 @@ export class TaskController {
   }
   constructor(
     private readonly taskService: TaskService,
-    private readonly logger: FileLoggerService,
+    private readonly logger: FileLoggerService1,
   ) {
     this.logger.setContext('TaskController');
     this.logger.setLogFileName(this.logFileName);

@@ -3,7 +3,7 @@ import { MessagePattern, Payload, RpcException } from '@nestjs/microservices';
 import { TransactionService } from './transaction.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
-import { TransactionType } from '@app/shared';
+import { FileLoggerService1, TransactionType } from '@app/shared';
 import { FileLoggerService } from '@app/shared';
 
 @Controller()
@@ -26,7 +26,7 @@ export class TransactionController {
 
   constructor(
     private readonly transactionService: TransactionService,
-    private readonly logger: FileLoggerService,
+    private readonly logger: FileLoggerService1,
   ) {
     this.logger.setContext('TransactionController');
     this.logger.setLogFileName(this.logFileName);

@@ -1,7 +1,7 @@
 import { Controller, HttpStatus } from '@nestjs/common';
 import { InventoryService } from './inventory.service';
 import { MessagePattern, RpcException } from '@nestjs/microservices';
-import { FileLoggerService } from '@app/shared';
+import { FileLoggerService, FileLoggerService1 } from '@app/shared';
 
 @Controller()
 export class InventoryController {
@@ -9,7 +9,7 @@ export class InventoryController {
 
   constructor(
     private readonly inventoryService: InventoryService,
-    private readonly logger: FileLoggerService,
+    private readonly logger: FileLoggerService1,
   ) {}
   @MessagePattern('inventory.status')
   getStatus() {

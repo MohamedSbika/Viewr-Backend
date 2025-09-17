@@ -6,6 +6,7 @@ import { LotModule } from './lot/lot.module';
 import { SupplierModule } from './supplier/supplier.module';
 import { InventoryItemModule } from './inventory-item/inventory-item.module';
 import { TransactionModule } from './transaction/transaction.module';
+import { LoggingModule } from '@app/shared/common/logging/logging.module';
 
 @Module({
   imports: [
@@ -14,7 +15,8 @@ import { TransactionModule } from './transaction/transaction.module';
     LotModule,
     SupplierModule,
     InventoryItemModule,
-    TransactionModule, // Uncommented since you want all submodules
+    TransactionModule,
+    LoggingModule // Uncommented since you want all submodules
   ],
   controllers: [InventoryController],
   providers: [InventoryService],

@@ -1,6 +1,9 @@
 import { DentalService } from './dental.service';
 import { MessagePattern } from '@nestjs/microservices';
 import { FileLoggerService } from '@app/shared/common/logger/file-logger.service';
+import { Controller } from '@nestjs/common';
+
+@Controller()
 
 export class DentalController {
   private readonly logFileName = 'app';

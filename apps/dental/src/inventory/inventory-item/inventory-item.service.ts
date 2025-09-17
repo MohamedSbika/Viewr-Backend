@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { InventoryItem } from '@app/shared';
+import { FileLoggerService1, InventoryItem } from '@app/shared';
 import { Lot } from '@app/shared';
 import { CreateInventoryItemDto } from './dto/create-inventory-item.dto';
 import { UpdateInventoryItemDto } from './dto/update-inventory-item.dto';
@@ -42,7 +42,7 @@ export class InventoryItemService {
     private inventoryItemRepository: Repository<InventoryItem>,
     @InjectRepository(Lot)
     private lotRepository: Repository<Lot>,
-    private readonly logger: FileLoggerService,
+    private readonly logger: FileLoggerService1,
   ) {
     // Set the default log file name and context for this service
     this.logger.setLogFileName(this.logFileName);

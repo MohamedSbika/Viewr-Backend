@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { Task } from '../entities/task.entity';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
-import { FileLoggerService } from '@app/shared';
+import { FileLoggerService, FileLoggerService1 } from '@app/shared';
 import { TaskStatus } from '../Enums/task-status.enum';
 import { TaskPriority } from '../Enums/task-priority.enum';
 
@@ -15,7 +15,7 @@ export class TaskService {
   constructor(
     @InjectRepository(Task)
     private readonly taskRepository: Repository<Task>,
-    private readonly logger: FileLoggerService,
+    private readonly logger: FileLoggerService1,
   ) {
     this.logger.setLogFileName(this.logFileName);
     this.logger.setContext('TaskService');
